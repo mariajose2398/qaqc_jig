@@ -229,6 +229,7 @@ if __name__ == '__main__':
     parser.add_argument('-i','--institution', default=None, type=Institution, choices=list(Institution), help='name of institution')
     parser.add_argument('--channel-mask', type=lambda x: int(x,0), default=0xffffffff, help='channel mask')
     parser.add_argument('-g', '--group', type=str, default=None, help='which group to analyze')
+    parser.add_argument('--skip-lyso-fit', default=False, dest='skip_lyso_fit', action='store_true', help="don't try to fit lyso")
     args = parser.parse_args()
     
     if not args.plot:
@@ -528,7 +529,7 @@ if __name__ == '__main__':
                 else:
                     ch_data[channel]['spe_charge_histogram_y'] = None
                     ch_data[channel]['spe_charge_histogram_x'] = None
-            
+
             # Fitting Histograms
             offset_pars = fit_gamma_funcs.fit_offset(hoffset) 
             hoffset.Write()
