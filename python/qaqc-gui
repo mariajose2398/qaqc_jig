@@ -48,10 +48,12 @@ BOARD_ADDRESSES = {
 
 RELAYS = [0,1,2,3,4,5]
 
-def filename_template(data_path='./', barcode=None, ov=None, n_spe=None, n_source=None):
+def filename_template(data_path='./', barcode=None, ov=None, n_spe=None, n_lyso=None,run_no=None):
     if not exists(data_path) and data_path != '':
         os.makedirs(data_path)
-    return join(data_path, 'module_%i_Vov%.2f_Nspe%d_Nsource%d.hdf5' % (int(barcode), float(ov), int(n_spe), int(n_source)))
+    file_path = join(data_path,'run%s_module_%i_Vov%.2f_Nspe%d_Nlyso%d.hdf5' % (run_no, int(barcode), float(ov), int(n_spe), int(n_lyso)))
+    print(file_path)
+    return(file_path) 
 
 def print_warning(msg):
     start = entry.index(tk.INSERT)
@@ -113,6 +115,7 @@ def save(filename=None):
     data['n_spe_events'] = n_spe_events.get()
     data['n_source_events'] = n_source_events.get()
     data['upload'] = upload_enable.get()
+    data["run_number"] = run_number.get()
     print("Saving GUI state from '%s'" % filename)
     with open(filename,'w') as f:
         json.dump(data,f)
@@ -158,6 +161,8 @@ def load(filename=None):
             n_source_events.set(data['n_source_events'])
         if 'upload_enable' in data:
             upload_enable.set(data['upload_enable'])
+        if 'run_number' in data:
+            run_number.set(data['run_number'])
         n_boards_changed()
 
 def on_closing():
@@ -223,7 +228,7 @@ def reanalyze_data():
             return
 
         try:
-            filename = filename_template(data_path=data_path.get(), barcode=barcode, ov=ov.get(), n_spe=n_spe_events.get(), n_source=n_source_events.get())
+            filename = filename_template(data_path=data_path.get(), barcode=barcode, ov=ov.get(), n_spe=n_spe_events.get(), n_lyso=n_lyso_events.get(), run_no=run_number.get())
         except:
             print_warning("Not a valid data path: %s\n" % data_path.get())
             return
@@ -311,7 +316,7 @@ def take_data():
         print('Setting absolute bias voltage %.2f for module %i\n' %(hv,i) )
 
         try:
-            filename = filename_template(data_path=data_path.get(), barcode=barcode, ov=ov.get(), n_spe=n_spe_events.get(), n_source=n_source_events.get())
+            filename = filename_template(data_path=data_path.get(), barcode=barcode, ov=ov.get(), n_spe=n_spe_events.get(), n_lyso=n_lyso_events.get(), run_no=run_number.get())
         except:
             print_warning("Not a valid data path: %s\n" % data_path.get())
             return
@@ -432,7 +437,7 @@ def take_data():
             return
 
         try:
-            filename = filename_template(data_path=data_path.get(), barcode=barcode, ov=ov.get(), n_spe=n_spe_events.get(), n_source=n_source_events.get())
+            filename = filename_template(data_path=data_path.get(), barcode=barcode, ov=ov.get(), n_spe=n_spe_events.get(), n_lyso=n_lyso_events.get(), run_no=run_number.get())
         except:
             print_warning("Not a valid data path: %s\n" % data_path.get())
             return
@@ -725,7 +730,14 @@ if __name__ == '__main__':
     upload_menu_label.grid(row=9,column=0)
     upload_enable = tk.IntVar(frame_menu, value=1)
     upload_enable_checkbox = tk.Checkbutton(frame_menu, text=None, variable=upload_enable, onvalue=1, offvalue=0)
-    upload_enable_checkbox.grid(row=9,column=1)
+    upload_enable_checkbox.grid(row=8,column=1)
+    
+    run_number_menu_label = tk.Label(frame_menu, text="Run Number: ")
+    run_number_menu_label.grid(row=9,column=0)
+    run_number = tk.StringVar(frame_menu)
+    run_number.set(0)
+    run_number_menu_entry = tk.Entry(frame_menu, textvariable=run_number)
+    run_number_menu_entry.grid(row=9,column=1)
 
     frame_menu.pack()
     frame_barcodes.pack()
