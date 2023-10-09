@@ -730,14 +730,14 @@ if __name__ == '__main__':
     upload_menu_label.grid(row=9,column=0)
     upload_enable = tk.IntVar(frame_menu, value=1)
     upload_enable_checkbox = tk.Checkbutton(frame_menu, text=None, variable=upload_enable, onvalue=1, offvalue=0)
-    upload_enable_checkbox.grid(row=8,column=1)
+    upload_enable_checkbox.grid(row=9,column=1)
     
     run_number_menu_label = tk.Label(frame_menu, text="Run Number: ")
-    run_number_menu_label.grid(row=9,column=0)
+    run_number_menu_label.grid(row=10,column=0)
     run_number = tk.StringVar(frame_menu)
     run_number.set(0)
     run_number_menu_entry = tk.Entry(frame_menu, textvariable=run_number)
-    run_number_menu_entry.grid(row=9,column=1)
+    run_number_menu_entry.grid(row=10,column=1)
 
     frame_menu.pack()
     frame_barcodes.pack()
