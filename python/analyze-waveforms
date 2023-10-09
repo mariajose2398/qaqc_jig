@@ -256,7 +256,7 @@ if __name__ == '__main__':
     
     data = {}
     ch_data = {}
-    source = None
+    source = args.sourceType
     with h5py.File(args.filename,'r') as f:
 
         for outer_key in f.keys():
