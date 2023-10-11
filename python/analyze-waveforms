@@ -204,7 +204,12 @@ if __name__ == '__main__':
     from argparse import ArgumentParser
     import ROOT
     from ROOT import gROOT
+    import sys
+    sys.path.append('/home/qaqcbtl/dt5742/python')
+ 
     import tdrstyle
+    tdrstyle.setTDRStyle()
+
     import matplotlib.pyplot as plt
     import psycopg2
     import psycopg2.extensions
@@ -212,7 +217,7 @@ if __name__ == '__main__':
     from btl import fit_lyso_funcs
     from btl import fit_gamma_funcs
 
-    tdrstyle.setTDRStyle()
+    #tdrstyle.setTDRStyle()
     ROOT.gStyle.SetOptStat(0)
     ROOT.gStyle.SetOptFit(0)
     ROOT.gStyle.SetTitleOffset(1.25,'Y')
