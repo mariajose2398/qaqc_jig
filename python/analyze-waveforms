@@ -154,7 +154,7 @@ def plot_graph(g, pdf=False, filename=None, xMin=-1., xMax=32.):
             c.Print("%s/%s/%s.pdf" % (args.print_pdfs,root, g.GetName()))
             c.Print("%s/%s/%s.png" % (args.print_pdfs,root, g.GetName()))
 
-def plot_graph_bars(g_L, g_R, pdf=False, filename=None, graphname='graph'):
+def plot_graph_bars(g_L, g_R, pdf=False, filename=None, graphname='graph', ymax=None):
     global canvas
     # Naming canvases this way will produce a runtime warning because ROOT
     # will always make a default canvas with name `c1` the first time you
@@ -168,7 +168,10 @@ def plot_graph_bars(g_L, g_R, pdf=False, filename=None, graphname='graph'):
     rms_L = g_L.GetRMS(2)
     rms_R = g_R.GetRMS(2)
     rms = max(rms_L,rms_R)
-    hPad = ROOT.gPad.DrawFrame(-1.,mean-5.*rms,16.,mean+5.*rms)
+    if ymax is None:
+        hPad = ROOT.gPad.DrawFrame(-1.,mean-5.*rms,16.,mean+5.*rms)
+    else:
+        hPad = ROOT.gPad.DrawFrame(-1.,0.0,16.,float(ymax))
     hPad.SetTitle(";%s;%s"%(g_L.GetXaxis().GetTitle(),g_L.GetYaxis().GetTitle()))
     hPad.Draw()
     g_L.SetMarkerStyle(20)
@@ -693,7 +696,7 @@ if __name__ == '__main__':
         g_R.SetTitle(f"LYSO Fit Results; Bar; Light Yield (pC/keV)")
         g_R.SetName("lyso_pc_per_kev_vs_bar_R")
         g_R.Write()
-        plot_graph_bars(g_L, g_R, pdf=args.print_pdfs, filename=args.filename, graphname='lyso_pc_per_kev_vs_bar')
+        plot_graph_bars(g_L, g_R, pdf=args.print_pdfs, filename=args.filename, graphname='lyso_pc_per_kev_vs_bar', ymax=2)
         
         g_L = ROOT.TGraphErrors()
         g_R = ROOT.TGraphErrors()
@@ -710,7 +713,7 @@ if __name__ == '__main__':
         g_R.SetTitle(f"SPE Fit Results; Bar; SPE Charge (pC)")
         g_R.SetName("spe_vs_bar_R")
         g_R.Write()
-        plot_graph_bars(g_L, g_R, pdf=args.print_pdfs, filename=args.filename, graphname='spe_vs_bar')
+        plot_graph_bars(g_L, g_R, pdf=args.print_pdfs, filename=args.filename, graphname='spe_vs_bar', ymax=4)
         
         g_L = ROOT.TGraphErrors()
         g_R = ROOT.TGraphErrors()
@@ -727,7 +730,7 @@ if __name__ == '__main__':
         g_R.SetTitle(f"Light Yield; Bar; Light Yield (PE/MeV)")
         g_R.SetName("light_yield_vs_bar_R")
         g_R.Write()
-        plot_graph_bars(g_L, g_R, pdf=args.print_pdfs, filename=args.filename, graphname='light_yield_vs_bar')
+        plot_graph_bars(g_L, g_R, pdf=args.print_pdfs, filename=args.filename, graphname='light_yield_vs_bar', ymax=5000)
 
     x = array('d')
     y = array('d')
