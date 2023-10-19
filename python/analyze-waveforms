@@ -718,7 +718,7 @@ if __name__ == '__main__':
         g_R.SetTitle(f"LYSO Fit Results; Bar; Light Yield (pC/keV)")
         g_R.SetName("lyso_pc_per_kev_vs_bar_R")
         g_R.Write()
-        plot_graph_bars(g_L, g_R, pdf=args.print_pdfs, filename=args.filename, graphname='lyso_pc_per_kev_vs_bar', ymax=2)
+        plot_graph_bars(g_L, g_R, pdf=args.print_pdfs, filename=args.filename, graphname='lyso_pc_per_kev_vs_bar', ymax=4)
         
         g_L = ROOT.TGraphErrors()
         g_R = ROOT.TGraphErrors()
@@ -735,7 +735,7 @@ if __name__ == '__main__':
         g_R.SetTitle(f"SPE Fit Results; Bar; SPE Charge (pC)")
         g_R.SetName("spe_vs_bar_R")
         g_R.Write()
-        plot_graph_bars(g_L, g_R, pdf=args.print_pdfs, filename=args.filename, graphname='spe_vs_bar', ymax=4)
+        plot_graph_bars(g_L, g_R, pdf=args.print_pdfs, filename=args.filename, graphname='spe_vs_bar', ymax=7)
         
         g_L = ROOT.TGraphErrors()
         g_R = ROOT.TGraphErrors()
