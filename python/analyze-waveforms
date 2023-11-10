@@ -109,6 +109,12 @@ def plot_hist(h, pdf=False, filename=None, logy=False):
     c = ROOT.TCanvas('c%i' % (len(canvas)+1),'',700,600)
     canvas.append(c)
     h.Draw()
+    latex= ROOT.TLatex(0.30, 0.90, "%s"%(h.GetTitle()))
+    latex.SetNDC()
+    latex.SetTextSize(0.050)
+    latex.SetTextColor(ROOT.kBlack)
+    latex.Draw()
+        
     if logy:
         ROOT.gPad.SetLogy()
     c.Update()
@@ -494,7 +500,7 @@ if __name__ == '__main__':
                 hsource = ROOT.TH1D(f"lyso_ch%02d"%ch, f"LYSO Charge Integral for ch%02d"%ch, int(1.*len(source_bins)), source_bins[0], source_bins[-1])
                 for x in event_charges:
                     hsource.Fill(x)
-                hsource.SetTitle(";Charge (pC);entries")
+                hsource.SetTitle("LYSO Charge Integral for ch%02d;Charge (pC);entries"%ch)
                 #hsource.Write()
                 
                 # Offset histogram, for measuring the pedestal
@@ -517,8 +523,7 @@ if __name__ == '__main__':
                 hspe = ROOT.TH1D("spe_ch%02d" % ch, "SPE Charge Integral for ch%02d" % ch, int(0.5*(9.+3.)/(spe_bins[1]-spe_bins[0])), -3., 9.)
                 for x in ch_data[channel]['spe_charge']:
                     hspe.Fill(x)
-                hspe.SetTitle(";Charge (pC);entries")
-                
+                hspe.SetTitle("SPE Charge Integral for ch%02d;Charge (pC);entries"%ch)
                 print('Fitting SPE %s!' % channel)
                 model = fit_spe_funcs.vinogradov_model()
                 spe_fit_pars = fit_spe_funcs.fit_spe(hspe, model)
