@@ -5,7 +5,7 @@ import ROOT
 
 FIT_OPTIONS = 'LSB' 
 
-def ROOT_peaks(h, width=10, height=0.05, npeaks=4, options="", sort=True):
+def ROOT_peaks(h, width=10, height=0.05, npeaks=4, options="", sort=True, Vov=None):
     """
     Finds peaks in hisogram `h`. `height` is measured as a fraction of the
     highest peak.  Peaks lower than `<highest peak>*height` will not be
@@ -18,9 +18,12 @@ def ROOT_peaks(h, width=10, height=0.05, npeaks=4, options="", sort=True):
     See ROOT TSpectrum documentation for peak finding details:
     https://root.cern.ch/root/htmldoc/guides/spectrum/Spectrum.html#processing-and-visualization-functions
     """
-
-    h.GetXaxis().SetRangeUser(300.,2000.)
-    
+    if Vov is not None:
+        if Vov < 1.75 :
+            h.GetXaxis().SetRangeUser(100.,2000.)
+        else:
+            print('true')
+            h.GetXaxis().SetRangeUser(300,2000.)
     spec = ROOT.TSpectrum(npeaks)
     highest_peak = None
 
@@ -130,7 +133,7 @@ def fit_gamma(h, eng, offset=0, offset_sigma=10):
     return [f.GetParameter(i) for i in range(3)], [f.GetParError(i) for i in range(3)]
 '''
 
-def fit_gamma(h, eng, offset=0, offset_sigma=10):
+def fit_gamma(h, eng, offset=0, offset_sigma=10, Vov=None):
     """
     Finds the full energy gamma peak (with energy `eng`) in the ROOT histogram
     `h`, and fits it with a Gausssian. Returns the fit parameters, with the
@@ -141,7 +144,7 @@ def fit_gamma(h, eng, offset=0, offset_sigma=10):
     nPeaks = 3
 
     h.GetXaxis().SetRangeUser(offset+3*offset_sigma,h.GetBinCenter(h.GetNbinsX()-1))
-    _ ,peak = ROOT_peaks(h,width=15,height=0.3,npeaks=nPeaks,options='nobackground',sort=False)
+    _ ,peak = ROOT_peaks(h,width=15,height=0.3,npeaks=nPeaks,options='nobackground',sort=False, Vov=Vov)
     if (peak == None): peak = 100
     
     # Now we find the full energy peak. We don't use `GetMaximumBin` because we
