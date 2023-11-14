@@ -78,6 +78,7 @@ if __name__ == '__main__':
     data = {}
     ch_data = {}
     source = args.sourceType
+    Vov= float(args.filename.split('Vov')[1][:3])
     with h5py.File(args.filename,'r') as f:
         
         for outer_key in f.keys():
@@ -87,7 +88,6 @@ if __name__ == '__main__':
                 ch_data[outer_key][inner_key] = group[inner_key][()]
         
         root_f = ROOT.TFile(args.output, "RECREATE")
-        
         neighbors = {}
         for i in range(32):
             neighbors[i] = []
@@ -186,8 +186,8 @@ if __name__ == '__main__':
             if f'lyso_charge' in ch_data[channel1] and f'lyso_charge' in ch_data[channel2]:
                 if args.sourceType == 'lyso':
                     print(f'Fitting LYSO bar{ch} for intrinsic spectrum...')
-                    source_fit_pars_raw = fit_intrinsic_funcs.fit_gamma(hsource_raw, SOURCES[args.sourceType], offset=offset, offset_sigma=offset_sigma)
-                    source_fit_pars = fit_intrinsic_funcs.fit_gamma(hsource, SOURCES[args.sourceType], offset=offset, offset_sigma=offset_sigma)
+                    source_fit_pars_raw = fit_intrinsic_funcs.fit_gamma(hsource_raw, SOURCES[args.sourceType], offset=offset, offset_sigma=offset_sigma, Vov=Vov)
+                    source_fit_pars = fit_intrinsic_funcs.fit_gamma(hsource, SOURCES[args.sourceType], offset=offset, offset_sigma=offset_sigma, Vov=Vov)
                 else:
                     print(f'Fitting LYSO bar {ch} for source spectrum...')
                     source_fit_pars_raw = fit_gamma_funcs.fit_gamma(hsource_raw, SOURCES[args.sourceType], offset=offset, offset_sigma=offset_sigma)
@@ -318,8 +318,8 @@ if __name__ == '__main__':
                     #        source_fit_pars = fit_lyso_funcs.fit_lyso(hsource, model, fix_pars=False)
                     #    else:
                     #        source_fit_pars = fit_lyso_funcs.fit_lyso(hsource, model)
-                    source_fit_pars_raw = fit_intrinsic_funcs.fit_gamma(hsource_raw, SOURCES[args.sourceType], offset=offset, offset_sigma=offset_sigma)
-                    source_fit_pars = fit_intrinsic_funcs.fit_gamma(hsource, SOURCES[args.sourceType], offset=offset, offset_sigma=offset_sigma)                    
+                    source_fit_pars_raw = fit_intrinsic_funcs.fit_gamma(hsource_raw, SOURCES[args.sourceType], offset=offset, offset_sigma=offset_sigma, Vov=Vov)
+                    source_fit_pars = fit_intrinsic_funcs.fit_gamma(hsource, SOURCES[args.sourceType], offset=offset, offset_sigma=offset_sigma, Vov=Vov)                    
                 else:
                     print(f'Fitting LYSO channel {ch} for source spectrum...')
                     source_fit_pars_raw = fit_gamma_funcs.fit_gamma(hsource_raw, SOURCES[args.sourceType], offset=offset, offset_sigma=offset_sigma)
