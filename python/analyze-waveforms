@@ -133,8 +133,8 @@ if __name__ == '__main__':
                 #source_bins = plot_utils.get_bins(event_charges, None)
                 #hsource = ROOT.TH1D(f"lyso_bar%02d"%ch, f"LYSO Charge Integral for ch%02d"%ch, int(1.*len(source_bins)), min(0,source_bins[0]), max(1400, source_bins[-1]))
                 #hsource_raw = ROOT.TH1D(f"lysoRaw_bar%02d"%ch, f"LYSO Charge Integral Raw for ch%02d"%ch, int(1.*len(source_bins)), min(0,source_bins[0]), max(1400, source_bins[-1]))
-                hsource = ROOT.TH1D(f"lyso_bar%02d"%ch, f"LYSO Charge Integral for bar%02d"%ch, 400, 0., 1000.)
-                hsource_raw = ROOT.TH1D(f"lyso_bar%02d_raw"%ch, f"LYSO Raw Charge Integral for bar%02d"%ch, 400, 0., 1000.)
+                hsource = ROOT.TH1D(f"lyso_bar%02d"%ch, f"LYSO Charge Integral for bar%02d"%ch, 400, 0., 2000.)
+                hsource_raw = ROOT.TH1D(f"lyso_bar%02d_raw"%ch, f"LYSO Raw Charge Integral for bar%02d"%ch, 400, 0., 2000.)
                 
                 for x in event_charges_raw:
                     if x > zeroSuppression:
@@ -237,8 +237,8 @@ if __name__ == '__main__':
                 #source_bins = plot_utils.get_bins(event_charges, None)
                 #hsource_raw = ROOT.TH1D(f"lysoRaw_ch%02d"%ch, f"LYSO Raw Charge Integral for ch%02d"%ch, int(1.*len(source_bins)), min(0,source_bins[0]), max(1400,source_bins[-1]))
                 #hsource = ROOT.TH1D(f"lyso_ch%02d"%ch, f"LYSO Charge Integral for ch%02d"%ch, int(1.*len(source_bins)), min(0,source_bins[0]), max(1400,source_bins[-1]))
-                hsource_raw = ROOT.TH1D(f"lyso_ch%02d_raw"%ch, f"LYSO Raw Charge Integral for ch%02d"%ch, 400, 0., 1000.)
-                hsource = ROOT.TH1D(f"lyso_ch%02d"%ch, f"LYSO Charge Integral for ch%02d"%ch, 400, 0., 1000.)
+                hsource_raw = ROOT.TH1D(f"lyso_ch%02d_raw"%ch, f"LYSO Raw Charge Integral for ch%02d"%ch, 400, 0., 2000.)
+                hsource = ROOT.TH1D(f"lyso_ch%02d"%ch, f"LYSO Charge Integral for ch%02d"%ch, 400, 0., 2000.)
                 for x in event_charges_raw:
                     if x > zeroSuppression:
                         hsource_raw.Fill(x)
