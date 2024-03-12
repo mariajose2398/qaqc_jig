@@ -23,7 +23,7 @@ def ROOT_peaks(h, width=10, height=0.05, npeaks=4, options="", sort=True, Vov=No
             h.GetXaxis().SetRangeUser(100.,2000.)
         else:
             print('true')
-            h.GetXaxis().SetRangeUser(300,2000.)
+            h.GetXaxis().SetRangeUser(250,2000.)
     spec = ROOT.TSpectrum(npeaks)
     highest_peak = None
 
