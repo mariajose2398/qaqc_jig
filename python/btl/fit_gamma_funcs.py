@@ -91,7 +91,7 @@ def fit_gamma(h, eng, offset=0, offset_sigma=10):
     f.SetParameter(0, (peak-offset)/eng)
     f.SetParameter(1, 0.08*peak/eng)
     f.SetParameter(2, h.GetBinContent(h.FindBin(peak)))
-    f.SetParRange(1,0.,100.)
+    f.SetParLimits(1,0.,100.)
     r = h.Fit(f, 'QLSB+',  '', 0.85*peak, 1.15*peak)
     #h.Write()
     
@@ -105,9 +105,11 @@ def fit_gamma(h, eng, offset=0, offset_sigma=10):
     #f.SetParLimits(0, 0, 2000/eng)
     #f.SetParLimits(1, 0, 500/eng)
     #f.SetParLimits(2, 0, 2000000)
-    r = h.Fit(f, 'QLSB+', '', offset+eng*f.GetParameter(0) - 0.75*eng*abs(f.GetParameter(1)), offset+eng*f.GetParameter(0) + 1.*eng*abs(f.GetParameter(1)))
+    fit_range_lo = max(h.GetXaxis().GetXmin(), offset+eng*f.GetParameter(0) - 0.75*eng*abs(f.GetParameter(1)))
+    fit_range_hi = min(h.GetXaxis().GetXmax(), offset+eng*f.GetParameter(0) + 1.*eng*abs(f.GetParameter(1)))
+    r = h.Fit(f, 'QLSB+', '', fit_range_lo, fit_range_hi)
     f.Write()
-    
+    print(r) 
     if not r.Get().IsValid():
         print('Fit failed')
         return None
